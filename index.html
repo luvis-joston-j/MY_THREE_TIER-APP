@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Data Form</title>
+    <title>Gamer Data Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,9 +25,37 @@
             margin-bottom: 15px;
             font-size: 24px;
         }
-        .form-container input[type="text"],
-        .form-container input[type="email"] {
+        .form-container input[type="text"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container input[type="submit"] {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-container input[type="submit"]:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Gamer Data Form</h2>
+        <form action="submit.php" method="post">
+            <label for="gamerid">Gamer ID:</label>
+            <input type="text" id="gamerid" name="gamerid" required>
+            <label for="games">Favorite Games:</label>
+            <input type="text" id="games" name="games" required>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
+
