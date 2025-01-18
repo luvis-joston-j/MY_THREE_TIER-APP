@@ -1,29 +1,35 @@
 <?php
-$servername = "database-2.cl6iaesoalcr.us-east-1.rds.amazonaws.com";
+header("Content-Type: application/json");
+
+// Database configuration
+$host = "database-2.cl6iaesoalcr.us-east-1.rds.amazonaws.com";
 $username = "admin";
 $password = "jostonjos";
-$dbname = "gamer-db";
+$dbname = "gamer_db";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Read input data
+$data = json_decode(file_get_contents("php://input"), true);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+if (isset($data['gamerId']) && isset($data['gameName'])) {
+    $gamerId = $data['gamerId'];
+    $gameName = $data['gameName'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $gamerid = $_POST['gamerid'];
-    $games = $_POST['games'];
+    try {
+        // Connect to the database
+        $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "INSERT INTO gamers (gamerid, games) VALUES ('$gamerid', '$games')";
+        // Insert data
+        $stmt = $conn->prepare("INSERT INTO gamers (gamer_id, game_name) VALUES (:gamer_id, :game_name)");
+        $stmt->bindParam(':gamer_id', $gamerId);
+        $stmt->bindParam(':game_name', $gameName);
+        $stmt->execute();
 
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo json_encode(["message" => "Data submitted successfully!"]);
+    } catch (PDOException $e) {
+        echo json_encode(["message" => "Error: " . $e->getMessage()]);
     }
-
-    $conn->close();
+} else {
+    echo json_encode(["message" => "Invalid input data."]);
 }
 ?>
