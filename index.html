@@ -1,61 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamer Data Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .form-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        .form-container h2 {
-            margin-bottom: 15px;
-            font-size: 24px;
-        }
-        .form-container input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .form-container input[type="submit"] {
-            background: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .form-container input[type="submit"]:hover {
-            background: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gamer Info Submission</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    .form-container {
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .form-container h2 {
+      text-align: center;
+    }
+    .form-container input, .form-container button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .form-container button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .form-container button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
-    <div class="form-container">
-        <h2>Gamer Data Form</h2>
-        <form action="submit.php" method="post">
-            <label for="gamerid">Gamer ID:</label>
-            <input type="text" id="gamerid" name="gamerid" required>
-            <label for="games">Favorite Games:</label>
-            <input type="text" id="games" name="games" required>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
+  <div class="form-container">
+    <h2>Submit Gamer Info</h2>
+    <form id="gamerForm">
+      <input type="text" id="gamerId" placeholder="Gamer ID" required>
+      <input type="text" id="gameName" placeholder="Game Name" required>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="responseMessage"></div>
+  </div>
+  <script>
+    document.getElementById('gamerForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const gamerId = document.getElementById('gamerId').value;
+      const gameName = document.getElementById('gameName').value;
+
+      const response = await fetch('http://<PUBLIC_IP_BACKEND>/submit.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ gamerId, gameName })
+      });
+
+      const result = await response.json();
+      document.getElementById('responseMessage').innerText = result.message;
+    });
+  </script>
 </body>
 </html>
-
