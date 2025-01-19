@@ -54,7 +54,7 @@
       const gamerId = document.getElementById('gamerId').value;
       const gameName = document.getElementById('gameName').value;
 
-      const response = await fetch('http://18.234.247.181/submit.php', {
+      const response = await fetch('http://18.234.247.181/api/submit.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ gamerId, gameName })
