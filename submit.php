@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 
 // Database configuration
-$host = "database-1.cl6iaesoalcr.us-east-1.rds.amazonaws.com";
+$host = "db_endpoint";
 $username = "admin";
 $password = "jostonjos";
 $dbname = "gamer_db";
